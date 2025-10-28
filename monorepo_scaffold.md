@@ -3,7 +3,7 @@
 # Monorepo layout (pnpm workspaces)
 
 ```
-kinetic-ledger/
+kinetic-ledger/motion-mint
 ├─ apps/
 │  ├─ web-dapp/                # Next.js 15 + wagmi + viem (wallet UX)
 │  ├─ api-gateway/             # FastAPI proxy (rate-limit, CORS, RBAC)
