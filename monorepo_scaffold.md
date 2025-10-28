@@ -1,15 +1,4 @@
-# Team name ideas (pick 1–2 you like)
-
-* MotionMint
-* ArcMōtif
-* USDC Velocity
-*** KineticLedger**
-* Attest&Pay
-* MotifWorks
-* ArcBehave
-* VectorVault
-* AgenticFlow
-* Blend&Bond
+# Team name: **KineticLedger**
 
 # Monorepo layout (pnpm workspaces)
 
