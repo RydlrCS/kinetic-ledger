@@ -4,18 +4,14 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-/**
- * @title RewardsEscrow
- * @notice USDC escrow for motion-based rewards disbursement
- * @dev Only treasurer can disburse funds
- */
-
-error InsufficientFunding();
-error TransferFailed();
-error NotTreasurer();
-error InvalidAddress();
-
+/// @notice USDC escrow for motion-based rewards disbursement
+/// @dev Only treasurer can disburse funds
 contract RewardsEscrow is ReentrancyGuard {
+    // Custom errors
+    error InsufficientFunding();
+    error TransferFailed();
+    error NotTreasurer();
+    error InvalidAddress();
     IERC20 public immutable USDC;
     address public treasurer;
 

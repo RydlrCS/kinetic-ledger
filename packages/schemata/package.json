@@ -1,0 +1,23 @@
+{
+  "name": "@kinetic-ledger/schemata",
+  "version": "0.1.0",
+  "description": "Shared TypeScript types and schemas for Kinetic Ledger",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write 'src/**/*.ts'"
+  },
+  "keywords": ["arc", "usdc", "eip-712", "schemas"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "viem": "^2.21.54"
+  }
+}

@@ -6,21 +6,14 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-/**
- * @title AttestedMotion
- * @notice ERC-721 motion NFT mint gated by EIP-712 attestation
- * @dev Implements pausable, reentrancy protection, and owner controls
- * - Verifies trusted validator signatures
- * - Prevents replay attacks with nonce + expiry
- * - Emits detailed events for off-chain indexing
- */
-
-error InvalidSigner();
-error ExpiredAttestation();
-error UsedNonce();
-error BadSignatureLength();
-
+/// @notice ERC-721 motion NFT mint gated by EIP-712 attestation
+/// @dev Implements pausable, reentrancy protection, and owner controls
 contract AttestedMotion is ERC721, ReentrancyGuard, Pausable, Ownable {
+    // Custom errors
+    error InvalidSigner();
+    error ExpiredAttestation();
+    error UsedNonce();
+    error BadSignatureLength();
     // EIP-712 domain separator components
     bytes32 public constant EIP712_DOMAIN_TYPEHASH =
         keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");

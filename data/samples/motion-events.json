@@ -1,0 +1,95 @@
+[
+  {
+    "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "timestamp": "2025-10-31T08:00:00Z",
+    "source": "fitbit",
+    "metricType": "steps",
+    "value": 5420,
+    "unit": "steps",
+    "metadata": {
+      "device": "Fitbit Charge 6",
+      "syncedAt": "2025-10-31T08:15:00Z"
+    }
+  },
+  {
+    "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "timestamp": "2025-10-31T08:00:00Z",
+    "source": "fitbit",
+    "metricType": "distance",
+    "value": 3.8,
+    "unit": "km",
+    "metadata": {
+      "device": "Fitbit Charge 6"
+    }
+  },
+  {
+    "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "timestamp": "2025-10-31T08:00:00Z",
+    "source": "fitbit",
+    "metricType": "calories",
+    "value": 245,
+    "unit": "kcal",
+    "metadata": {
+      "device": "Fitbit Charge 6"
+    }
+  },
+  {
+    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+    "timestamp": "2025-10-31T09:30:00Z",
+    "source": "apple-health",
+    "metricType": "steps",
+    "value": 8200,
+    "unit": "steps",
+    "metadata": {
+      "device": "iPhone 15 Pro",
+      "location": "outdoor"
+    }
+  },
+  {
+    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+    "timestamp": "2025-10-31T09:30:00Z",
+    "source": "apple-health",
+    "metricType": "heart_rate",
+    "value": 125,
+    "unit": "bpm",
+    "metadata": {
+      "activity": "running"
+    }
+  },
+  {
+    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
+    "timestamp": "2025-10-31T10:00:00Z",
+    "source": "strava",
+    "metricType": "distance",
+    "value": 12.5,
+    "unit": "km",
+    "metadata": {
+      "activity": "cycling",
+      "elevation": 320,
+      "averageSpeed": 22.4
+    }
+  },
+  {
+    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
+    "timestamp": "2025-10-31T10:00:00Z",
+    "source": "strava",
+    "metricType": "duration",
+    "value": 2340,
+    "unit": "seconds",
+    "metadata": {
+      "activity": "cycling"
+    }
+  },
+  {
+    "wallet": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "timestamp": "2025-10-31T11:00:00Z",
+    "source": "garmin",
+    "metricType": "steps",
+    "value": 6890,
+    "unit": "steps",
+    "metadata": {
+      "device": "Garmin Forerunner 965",
+      "vo2max": 52
+    }
+  }
+]
