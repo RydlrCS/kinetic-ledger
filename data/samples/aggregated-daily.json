@@ -1,0 +1,143 @@
+[
+  {
+    "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "periodStart": "2025-10-31T00:00:00Z",
+    "periodEnd": "2025-10-31T23:59:59Z",
+    "totalSteps": 8620,
+    "totalDistance": 9.0,
+    "totalCalories": 765,
+    "averageHeartRate": 131,
+    "activeDuration": 4200,
+    "dataPoints": 2,
+    "motionCategories": {
+      "locomotion": 2400,
+      "athletic": 1800
+    },
+    "motionFiles": [
+      "Walking Forward.fbx",
+      "Running Sprint.fbx"
+    ],
+    "totalFrames": 210,
+    "averageIntensity": 0.575,
+    "complexityScore": 0.5,
+    "multiSensorMetrics": {
+      "attestationSources": ["fitbit-api", "mocap-sensor"],
+      "averageConfidenceScore": 0.935,
+      "crossValidatedEvents": 2,
+      "totalEvents": 2,
+      "deviceTypes": ["Fitbit Charge 6"],
+      "mocapFrames": 210,
+      "biomechanicsAnalyzed": true
+    }
+  },
+  {
+    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+    "periodStart": "2025-10-31T00:00:00Z",
+    "periodEnd": "2025-10-31T23:59:59Z",
+    "totalSteps": 11000,
+    "totalDistance": 0,
+    "totalCalories": 1260,
+    "averageHeartRate": 148,
+    "activeDuration": 8100,
+    "dataPoints": 2,
+    "motionCategories": {
+      "dance": 4500,
+      "sports": 3600
+    },
+    "motionFiles": [
+      "Dancing In The Rain.fbx",
+      "Tennis Match Point.fbx"
+    ],
+    "totalFrames": 630,
+    "averageIntensity": 0.7,
+    "complexityScore": 0.75,
+    "multiSensorMetrics": {
+      "attestationSources": ["apple-health", "garmin-connect", "mocap-sensor"],
+      "averageConfidenceScore": 0.91,
+      "crossValidatedEvents": 2,
+      "totalEvents": 2,
+      "deviceTypes": ["Apple Watch Series 9", "Garmin Forerunner 965"],
+      "mocapFrames": 630,
+      "biomechanicsAnalyzed": true,
+      "vo2maxRecorded": true,
+      "trainingEffect": 3.8
+    }
+  },
+  {
+    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
+    "periodStart": "2025-10-31T00:00:00Z",
+    "periodEnd": "2025-10-31T23:59:59Z",
+    "totalSteps": 0,
+    "totalDistance": 0,
+    "totalCalories": 600,
+    "averageHeartRate": 165,
+    "activeDuration": 3000,
+    "dataPoints": 2,
+    "motionCategories": {
+      "martial_arts": 3000
+    },
+    "motionFiles": [
+      "Air Kicking_fist.glb",
+      "Punches.fbx"
+    ],
+    "totalFrames": 150,
+    "averageIntensity": 0.89,
+    "complexityScore": 0.75,
+    "multiSensorMetrics": {
+      "attestationSources": ["whoop-api", "polar-flow", "mocap-sensor"],
+      "averageConfidenceScore": 0.925,
+      "crossValidatedEvents": 2,
+      "totalEvents": 2,
+      "deviceTypes": ["Whoop 4.0", "Polar H10"],
+      "mocapFrames": 150,
+      "biomechanicsAnalyzed": true,
+      "combatMetrics": {
+        "totalStrikes": 248,
+        "averageStrikeVelocity": 10.35,
+        "peakForce": 850
+      },
+      "strainScore": 16.2,
+      "hrv": 42
+    }
+  },
+  {
+    "wallet": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "periodStart": "2025-10-31T00:00:00Z",
+    "periodEnd": "2025-10-31T23:59:59Z",
+    "totalSteps": 0,
+    "totalDistance": 0,
+    "totalCalories": 335,
+    "averageHeartRate": 133,
+    "activeDuration": 2100,
+    "dataPoints": 2,
+    "motionCategories": {
+      "fantasy": 1500,
+      "combat": 600
+    },
+    "motionFiles": [
+      "Magic Spell.fbx",
+      "Shoot Reaction.fbx"
+    ],
+    "totalFrames": 105,
+    "averageIntensity": 0.45,
+    "complexityScore": 0.575,
+    "multiSensorMetrics": {
+      "attestationSources": ["meta-health", "peloton-api", "vr-mocap", "iot-sensor", "mocap-validation"],
+      "averageConfidenceScore": 0.92,
+      "crossValidatedEvents": 2,
+      "totalEvents": 2,
+      "deviceTypes": ["Meta Quest 3 Health", "Peloton Bike+ IoT"],
+      "mocapFrames": 105,
+      "biomechanicsAnalyzed": true,
+      "vrMetrics": {
+        "spatialMovement": 450,
+        "gesturePrecision": 0.89
+      },
+      "iotMetrics": {
+        "avgPower": 185,
+        "peakPower": 320,
+        "cadence": 88
+      }
+    }
+  }
+]

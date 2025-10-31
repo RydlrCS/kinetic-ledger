@@ -2,94 +2,301 @@
   {
     "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
     "timestamp": "2025-10-31T08:00:00Z",
-    "source": "fitbit",
+    "source": "multi-sensor-attestation",
     "metricType": "steps",
     "value": 5420,
     "unit": "steps",
     "metadata": {
-      "device": "Fitbit Charge 6",
-      "syncedAt": "2025-10-31T08:15:00Z"
+      "fitnessTracker": {
+        "device": "Fitbit Charge 6",
+        "steps": 5420,
+        "distance": 3.8,
+        "distanceUnit": "km",
+        "calories": 245,
+        "averageHeartRate": 98,
+        "peakHeartRate": 125,
+        "syncedAt": "2025-10-31T08:15:00Z"
+      },
+      "mocapValidation": {
+        "motionFile": "Walking Forward.fbx",
+        "frames": 120,
+        "joints": 25,
+        "category": "locomotion",
+        "intensity": 0.3,
+        "complexity": "low",
+        "gaitAnalysis": {
+          "strideLength": 0.7,
+          "cadence": 112,
+          "symmetry": 0.94
+        }
+      },
+      "attestationSources": ["fitbit-api", "mocap-sensor"],
+      "confidenceScore": 0.95,
+      "crossValidated": true
     }
   },
   {
     "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-    "timestamp": "2025-10-31T08:00:00Z",
-    "source": "fitbit",
-    "metricType": "distance",
-    "value": 3.8,
-    "unit": "km",
-    "metadata": {
-      "device": "Fitbit Charge 6"
-    }
-  },
-  {
-    "wallet": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-    "timestamp": "2025-10-31T08:00:00Z",
-    "source": "fitbit",
-    "metricType": "calories",
-    "value": 245,
-    "unit": "kcal",
-    "metadata": {
-      "device": "Fitbit Charge 6"
-    }
-  },
-  {
-    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
-    "timestamp": "2025-10-31T09:30:00Z",
-    "source": "apple-health",
-    "metricType": "steps",
-    "value": 8200,
-    "unit": "steps",
-    "metadata": {
-      "device": "iPhone 15 Pro",
-      "location": "outdoor"
-    }
-  },
-  {
-    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
-    "timestamp": "2025-10-31T09:30:00Z",
-    "source": "apple-health",
-    "metricType": "heart_rate",
-    "value": 125,
-    "unit": "bpm",
-    "metadata": {
-      "activity": "running"
-    }
-  },
-  {
-    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
-    "timestamp": "2025-10-31T10:00:00Z",
-    "source": "strava",
-    "metricType": "distance",
-    "value": 12.5,
-    "unit": "km",
-    "metadata": {
-      "activity": "cycling",
-      "elevation": 320,
-      "averageSpeed": 22.4
-    }
-  },
-  {
-    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
-    "timestamp": "2025-10-31T10:00:00Z",
-    "source": "strava",
+    "timestamp": "2025-10-31T08:40:00Z",
+    "source": "multi-sensor-attestation",
     "metricType": "duration",
-    "value": 2340,
+    "value": 1800,
     "unit": "seconds",
     "metadata": {
-      "activity": "cycling"
+      "fitnessTracker": {
+        "device": "Fitbit Charge 6",
+        "steps": 3200,
+        "distance": 5.2,
+        "distanceUnit": "km",
+        "calories": 520,
+        "averageHeartRate": 165,
+        "peakHeartRate": 182,
+        "pace": 5.75,
+        "paceUnit": "min/km"
+      },
+      "mocapValidation": {
+        "motionFile": "Running Sprint.fbx",
+        "frames": 90,
+        "joints": 25,
+        "category": "athletic",
+        "intensity": 0.85,
+        "complexity": "medium",
+        "biomechanics": {
+          "strideLength": 1.62,
+          "cadence": 178,
+          "groundContactTime": 0.21,
+          "verticalOscillation": 8.5
+        }
+      },
+      "attestationSources": ["fitbit-api", "mocap-sensor"],
+      "confidenceScore": 0.92,
+      "crossValidated": true
+    }
+  },
+  {
+    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+    "timestamp": "2025-10-31T09:30:00Z",
+    "source": "multi-sensor-attestation",
+    "metricType": "duration",
+    "value": 4500,
+    "unit": "seconds",
+    "metadata": {
+      "fitnessTracker": {
+        "device": "Apple Watch Series 9",
+        "steps": 6800,
+        "calories": 680,
+        "averageHeartRate": 145,
+        "peakHeartRate": 172,
+        "workoutType": "dance",
+        "activeEnergyBurned": 520,
+        "location": "indoor"
+      },
+      "mocapValidation": {
+        "motionFile": "Dancing In The Rain.fbx",
+        "frames": 450,
+        "joints": 30,
+        "category": "dance",
+        "intensity": 0.65,
+        "complexity": "high",
+        "tags": ["choreography", "expressive", "rhythmic"],
+        "performanceMetrics": {
+          "expressiveness": 0.88,
+          "rhythmAccuracy": 0.91,
+          "spatialCoverage": 0.76
+        }
+      },
+      "attestationSources": ["apple-health", "mocap-sensor"],
+      "confidenceScore": 0.89,
+      "crossValidated": true
+    }
+  },
+  {
+    "wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+    "timestamp": "2025-10-31T10:15:00Z",
+    "source": "multi-sensor-attestation",
+    "metricType": "duration",
+    "value": 3600,
+    "unit": "seconds",
+    "metadata": {
+      "fitnessTracker": {
+        "device": "Garmin Forerunner 965",
+        "steps": 4200,
+        "calories": 580,
+        "averageHeartRate": 152,
+        "peakHeartRate": 178,
+        "vo2max": 52,
+        "trainingEffect": 3.8,
+        "recoveryTime": 24
+      },
+      "mocapValidation": {
+        "motionFile": "Tennis Match Point.fbx",
+        "frames": 180,
+        "joints": 25,
+        "category": "sports",
+        "intensity": 0.75,
+        "complexity": "medium",
+        "tags": ["competitive", "precision", "athletic"],
+        "techniqueAnalysis": {
+          "serveAccuracy": 0.82,
+          "swingSpeed": 95,
+          "footworkAgility": 0.87
+        }
+      },
+      "attestationSources": ["garmin-connect", "mocap-sensor"],
+      "confidenceScore": 0.93,
+      "crossValidated": true
+    }
+  },
+  {
+    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
+    "timestamp": "2025-10-31T11:00:00Z",
+    "source": "multi-sensor-attestation",
+    "metricType": "duration",
+    "value": 2100,
+    "unit": "seconds",
+    "metadata": {
+      "fitnessTracker": {
+        "device": "Whoop 4.0",
+        "calories": 420,
+        "averageHeartRate": 158,
+        "peakHeartRate": 185,
+        "strain": 16.2,
+        "hrv": 42,
+        "respiratoryRate": 18
+      },
+      "mocapValidation": {
+        "motionFile": "Air Kicking_fist.glb",
+        "frames": 105,
+        "joints": 28,
+        "category": "martial_arts",
+        "intensity": 0.9,
+        "complexity": "high",
+        "tags": ["combat", "technique", "powerful"],
+        "combatMetrics": {
+          "strikeVelocity": 12.5,
+          "impactForce": 850,
+          "techniqueAccuracy": 0.91,
+          "balanceStability": 0.88
+        }
+      },
+      "attestationSources": ["whoop-api", "mocap-sensor"],
+      "confidenceScore": 0.94,
+      "crossValidated": true
+    }
+  },
+  {
+    "wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
+    "timestamp": "2025-10-31T11:35:00Z",
+    "source": "multi-sensor-attestation",
+    "metricType": "duration",
+    "value": 900,
+    "unit": "seconds",
+    "metadata": {
+      "fitnessTracker": {
+        "device": "Polar H10",
+        "calories": 180,
+        "averageHeartRate": 172,
+        "peakHeartRate": 192,
+        "heartRateZones": {
+          "zone1": 0,
+          "zone2": 5,
+          "zone3": 20,
+          "zone4": 45,
+          "zone5": 30
+        }
+      },
+      "mocapValidation": {
+        "motionFile": "Punches.fbx",
+        "frames": 45,
+        "joints": 25,
+        "category": "martial_arts",
+        "intensity": 0.88,
+        "complexity": "medium",
+        "tags": ["boxing", "strikes", "rapid"],
+        "combatMetrics": {
+          "punchCount": 248,
+          "averagePunchSpeed": 8.2,
+          "peakPunchSpeed": 11.8,
+          "comboAccuracy": 0.86
+        }
+      },
+      "attestationSources": ["polar-flow", "mocap-sensor"],
+      "confidenceScore": 0.91,
+      "crossValidated": true
     }
   },
   {
     "wallet": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
-    "timestamp": "2025-10-31T11:00:00Z",
-    "source": "garmin",
-    "metricType": "steps",
-    "value": 6890,
-    "unit": "steps",
+    "timestamp": "2025-10-31T12:00:00Z",
+    "source": "multi-sensor-attestation",
+    "metricType": "duration",
+    "value": 1500,
+    "unit": "seconds",
     "metadata": {
-      "device": "Garmin Forerunner 965",
-      "vo2max": 52
+      "fitnessTracker": {
+        "device": "Meta Quest 3 Health",
+        "calories": 240,
+        "averageHeartRate": 128,
+        "peakHeartRate": 152,
+        "vrWorkoutType": "supernatural",
+        "movementIntensity": 0.72,
+        "spatialMovement": 450
+      },
+      "mocapValidation": {
+        "motionFile": "Magic Spell.fbx",
+        "frames": 75,
+        "joints": 30,
+        "category": "fantasy",
+        "intensity": 0.4,
+        "complexity": "high",
+        "tags": ["gesture", "magical", "theatrical"],
+        "gestureMetrics": {
+          "precision": 0.89,
+          "fluidity": 0.92,
+          "rangeOfMotion": 0.85,
+          "repeatability": 0.87
+        }
+      },
+      "attestationSources": ["meta-health", "vr-mocap"],
+      "confidenceScore": 0.88,
+      "crossValidated": true
+    }
+  },
+  {
+    "wallet": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "timestamp": "2025-10-31T12:25:00Z",
+    "source": "multi-sensor-attestation",
+    "metricType": "duration",
+    "value": 600,
+    "unit": "seconds",
+    "metadata": {
+      "fitnessTracker": {
+        "device": "Peloton Bike+ IoT",
+        "calories": 95,
+        "averageHeartRate": 138,
+        "peakHeartRate": 165,
+        "avgPower": 185,
+        "peakPower": 320,
+        "cadence": 88,
+        "resistance": 45
+      },
+      "mocapValidation": {
+        "motionFile": "Shoot Reaction.fbx",
+        "frames": 30,
+        "joints": 25,
+        "category": "combat",
+        "intensity": 0.5,
+        "complexity": "low",
+        "tags": ["reaction", "defensive", "impact"],
+        "biomechanics": {
+          "reactionTime": 0.18,
+          "movementEfficiency": 0.84,
+          "stabilityIndex": 0.79
+        }
+      },
+      "attestationSources": ["peloton-api", "iot-sensor", "mocap-validation"],
+      "confidenceScore": 0.96,
+      "crossValidated": true
     }
   }
 ]
