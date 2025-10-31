@@ -70,3 +70,8 @@ env/
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
+# Generated test data
+data/pipelines/samples/*.jsonl
+data/pipelines/samples/*.json
+data/pipelines/*.log
+data/pipelines/100STYLE.zip

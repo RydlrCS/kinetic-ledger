@@ -1,0 +1,21 @@
+{
+  "name": "@kinetic-ledger/pipelines",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate-data": "tsx samples/generate-demo-data.ts",
+    "test:100-styles": "tsx test-100-styles.ts",
+    "test:verbose": "VERBOSE=true tsx test-100-styles.ts"
+  },
+  "dependencies": {
+    "pino": "^9.5.0",
+    "split2": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "pino-pretty": "^11.3.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.2"
+  }
+}
