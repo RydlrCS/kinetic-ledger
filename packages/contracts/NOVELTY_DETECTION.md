@@ -506,5 +506,5 @@ MIT License - See LICENSE file for details
 ## Support
 
 - GitHub Issues: https://github.com/RydlrCS/kinetic-ledger/issues
-- Research Team: Rydlr Cloud Services Ltd. × Moverse
+- Research Team: Rydlr Cloud Services Ltd. × Moverse PC
 - Location: IX Africa Data Centre, Nairobi, Kenya
