@@ -7,7 +7,9 @@
     "test": "hardhat test",
     "lint": "solhint 'contracts/**/*.sol'",
     "format": "prettier --write 'contracts/**/*.sol'",
-    "clean": "hardhat clean && rm -rf typechain-types"
+    "clean": "hardhat clean && rm -rf typechain-types",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network arcTestnet",
+    "authorize:agent": "hardhat run scripts/authorize-agent.ts --network arcTestnet"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
