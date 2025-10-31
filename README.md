@@ -12,7 +12,9 @@
 
 **Bringing cryptographic trust to fitness data with RkCNN algorithm on Arc blockchain**
 
-[Live Demo](https://kinetic-ledger.vercel.app) • [Pitch Deck](presentation/PITCH_DECK.md) • [Demo Video](#) • [Devpost](https://devpost.com/software/kinetic-ledger)
+[🎨 Motion Studio](apps/web-dapp/src/app/studio) • [Pitch Deck](presentation/PITCH_DECK.md) • [Demo Video](#) • [Devpost](https://devpost.com/software/kinetic-ledger)
+
+
 
 </div>
 
@@ -692,6 +694,24 @@ def health():
 ```
 
 ---
+
+## 🎨 NEW: Motion Tokenization Studio
+
+**Polkadot-inspired UI for creating motion blend NFTs** (just shipped! 🚀)
+
+### Features:
+- **🎬 Motion Preview Panel**: Timeline scrubber with real-time blend playback
+- **🎨 Blend Configuration**: 8 dance motifs (Capoeira, Breakdance, Salsa, Swing, Wave Hip Hop, Contemporary, Ballet, Krump)
+- **✅ AI Validation**: Quality check + compliance verification + EIP-712 attestation
+- **🪙 Token Minting**: ERC-721 (unique) or ERC-1155 (multi-edition) with USDC payment
+- **💰 Wallet Panel**: USDC balance, transaction history, Arc-powered finality
+
+**Try it**: `pnpm -C apps/web-dapp dev` → visit [http://localhost:3000/studio](http://localhost:3000/studio)
+
+**Design Language**: Circular motifs, gradient blues (#5ac8fa → #277ffe), Polkadot-style dots, minimalist typography
+
+---
+
 # ROOT README.md
 ```md
 # Kinetic Ledger — USDC Agents Monorepo
