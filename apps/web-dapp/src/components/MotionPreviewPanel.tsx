@@ -29,7 +29,7 @@ export default function MotionPreviewPanel({ segments, transitions, totalDuratio
   const [currentTime, setCurrentTime] = useState(0);
   const [activeTransition, setActiveTransition] = useState<Transition | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (isPlaying) {

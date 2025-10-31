@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import KineticLogo from '../components/KineticLogo';
-import MotionPreviewPanel from '../components/MotionPreviewPanel';
-import BlendConfigurationModule from '../components/BlendConfigurationModule';
-import ValidationAttestationView from '../components/ValidationAttestationView';
-import TokenMintingInterface from '../components/TokenMintingInterface';
-import WalletPaymentPanel from '../components/WalletPaymentPanel';
+import KineticLogo from '../../components/KineticLogo';
+import MotionPreviewPanel from '../../components/MotionPreviewPanel';
+import BlendConfigurationModule from '../../components/BlendConfigurationModule';
+import ValidationAttestationView from '../../components/ValidationAttestationView';
+import TokenMintingInterface from '../../components/TokenMintingInterface';
+import WalletPaymentPanel from '../../components/WalletPaymentPanel';
 
 // Sample data
 const SAMPLE_SEGMENTS = [
