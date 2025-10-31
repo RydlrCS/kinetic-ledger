@@ -1,0 +1,40 @@
+{
+  "name": "kinetic-ledger",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AI-powered payment solution on Arc with USDC for agentic finance",
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "bootstrap": "pnpm i && pnpm -r build",
+    "dev": "pnpm -C apps/web-dapp dev & pnpm -C apps/agent-service dev & pnpm -C apps/api-gateway dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
+    "test": "pnpm -r test",
+    "test:contracts": "pnpm -C packages/contracts test",
+    "test:integration": "pnpm -C apps/api-gateway test && pnpm -C apps/agent-service test",
+    "test:e2e": "pnpm -C apps/web-dapp test:e2e",
+    "clean": "pnpm -r clean && rm -rf node_modules"
+  },
+  "keywords": [
+    "arc",
+    "usdc",
+    "ai-agents",
+    "defi",
+    "attestations",
+    "eip-712",
+    "web3"
+  ],
+  "author": "Kinetic Ledger Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "eslint": "^9.11.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
