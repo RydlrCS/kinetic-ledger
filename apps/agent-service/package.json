@@ -1,0 +1,31 @@
+{
+  "name": "@kinetic-ledger/agent-service",
+  "version": "1.0.0",
+  "description": "Autonomous AI agent for motion novelty detection and on-chain attestation",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "test": "jest"
+  },
+  "keywords": ["blockchain", "ai-agent", "motion-detection", "arc", "usdc"],
+  "author": "Rydlr Cloud Services Ltd.",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "pino": "^9.5.0",
+    "pino-pretty": "^11.3.0",
+    "dotenv": "^16.4.7",
+    "fastq": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "eslint": "^9.16.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0"
+  }
+}
