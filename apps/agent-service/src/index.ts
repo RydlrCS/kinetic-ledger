@@ -55,21 +55,31 @@ async function checkRPCHealth(provider: any): Promise<boolean> {
  * Main service entry point
  */
 async function main() {
+  const startTime = Date.now();
   logger.info(
     {
       service: 'agent-service',
       version: '1.0.0',
       action: 'startup',
+      timestamp: new Date().toISOString(),
+      verbose: process.env.VERBOSE === 'true',
     },
-    'Kinetic Ledger Agent Service starting'
+    '🚀 ENTRY: Kinetic Ledger Agent Service starting'
   );
 
   // Validate environment
+  logger.trace({ action: 'validate_environment' }, 'Validating environment variables');
   validateEnvironment();
+  logger.trace({ action: 'validate_environment' }, '✅ Environment validation complete');
 
   // Initialize signer and contracts
+  logger.trace({ action: 'initialize_signer' }, 'Initializing wallet signer');
   const { provider, wallet } = initializeSigner();
+  logger.info({ action: 'signer_initialized', address: wallet.address }, '✅ Wallet signer initialized');
+  
+  logger.trace({ action: 'initialize_contracts' }, 'Initializing smart contracts');
   const contracts = initializeContracts(provider, wallet);
+  logger.info({ action: 'contracts_initialized' }, '✅ Smart contracts initialized');
 
   // Check initial RPC health
   const healthy = await checkRPCHealth(provider);
@@ -157,16 +167,25 @@ async function main() {
     {
       service: 'agent-service',
       action: 'ready',
+      uptimeMs: Date.now() - startTime,
     },
-    'Agent service ready and listening'
+    '✅ Agent service ready and listening'
   );
 
   // Keep process alive
   // In production, this would be an HTTP server listening for webhooks
   process.on('SIGINT', () => {
     logger.info(
-      { service: 'agent-service', action: 'shutdown' },
-      'Graceful shutdown initiated'
+      { service: 'agent-service', action: 'shutdown', signal: 'SIGINT' },
+      '🏁 EXIT: Graceful shutdown initiated'
+    );
+    process.exit(0);
+  });
+  
+  process.on('SIGTERM', () => {
+    logger.info(
+      { service: 'agent-service', action: 'shutdown', signal: 'SIGTERM' },
+      '🏁 EXIT: Graceful shutdown initiated'
     );
     process.exit(0);
   });

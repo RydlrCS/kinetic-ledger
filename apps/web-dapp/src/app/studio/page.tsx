@@ -1,12 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import KineticLogo from '../../components/KineticLogo';
 import MotionPreviewPanel from '../../components/MotionPreviewPanel';
 import BlendConfigurationModule from '../../components/BlendConfigurationModule';
 import ValidationAttestationView from '../../components/ValidationAttestationView';
 import TokenMintingInterface from '../../components/TokenMintingInterface';
 import WalletPaymentPanel from '../../components/WalletPaymentPanel';
+
+const VERBOSE = process.env.NEXT_PUBLIC_VERBOSE === 'true' || process.env.NODE_ENV === 'development';
+
+const log = (...args: any[]) => {
+  if (VERBOSE) {
+    console.log('[Motion Studio]', new Date().toISOString(), ...args);
+  }
+};
 
 // Sample data
 const SAMPLE_SEGMENTS = [
@@ -54,6 +62,13 @@ const SAMPLE_TRANSITIONS = [
 ];
 
 export default function MotionStudioPage() {
+  useEffect(() => {
+    log('🚀 ENTRY: MotionStudioPage component mounted');
+    return () => {
+      log('🏁 EXIT: MotionStudioPage component unmounting');
+    };
+  }, []);
+
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
   const [balance, setBalance] = useState('150.00');
@@ -82,21 +97,26 @@ export default function MotionStudioPage() {
   ]);
 
   const handleConnect = () => {
+    log('🔌 ENTRY: handleConnect');
     // Simulate wallet connection
     setWalletConnected(true);
     setWalletAddress('0x742d35Cc6634C0532925a3b844Bc9e7595f0B79C');
+    log('✅ EXIT: handleConnect - wallet connected:', '0x742d...B79C');
   };
 
   const handleDisconnect = () => {
+    log('🔌 ENTRY: handleDisconnect');
     setWalletConnected(false);
     setWalletAddress('');
+    log('✅ EXIT: handleDisconnect - wallet disconnected');
   };
 
   const handleValidate = async () => {
+    log('🔍 ENTRY: handleValidate');
     setIsValidating(true);
     // Simulate validation
     await new Promise(resolve => setTimeout(resolve, 2000));
-    setValidationResult({
+    const result = {
       aiQuality: 'passed',
       aiMessage: 'Motion blending is smooth and falls within allowed parameters. Quality score: 95/100.',
       compliance: 'passed',
@@ -107,15 +127,19 @@ export default function MotionStudioPage() {
         timestamp: Date.now(),
         standard: 'ERC-8001',
       },
-    });
+    };
+    setValidationResult(result);
     setIsValidating(false);
+    log('✅ EXIT: handleValidate - validation passed, quality:', result.aiQuality);
   };
 
   const handleMint = async (options: any) => {
+    log('🪙 ENTRY: handleMint', { options });
     // Simulate minting
     await new Promise(resolve => setTimeout(resolve, 3000));
     const newBalance = (parseFloat(balance) - 7).toFixed(2);
     setBalance(newBalance);
+    log('✅ EXIT: handleMint - token minted, new balance:', newBalance, 'USDC');
   };
 
   const metadata = {

@@ -139,21 +139,43 @@ class AttestationResponse(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan events for startup/shutdown"""
+    start_time = time.time()
+    
     logger.info(
         "api_gateway_starting",
         app_name=settings.app_name,
         version=settings.app_version,
         environment=settings.environment,
         arc_chain_id=settings.arc_chain_id,
-        verbose=settings.verbose
+        verbose=settings.verbose,
+        timestamp=datetime.utcnow().isoformat()
     )
+    logger.info("🚀 ENTRY: Kinetic Ledger API Gateway starting")
     
     # Validate critical settings
+    if settings.verbose:
+        logger.debug("validating_critical_settings")
+    
     if not settings.webhook_secret:
         logger.warning("webhook_secret_not_set", security_risk="high")
+    else:
+        if settings.verbose:
+            logger.debug("✅ webhook_secret_configured")
+    
+    if settings.verbose:
+        logger.debug(
+            "✅ api_gateway_ready",
+            startup_time_ms=round((time.time() - start_time) * 1000, 2)
+        )
+    
+    logger.info(
+        "✅ API Gateway ready and listening",
+        uptime_ms=round((time.time() - start_time) * 1000, 2)
+    )
     
     yield
     
+    logger.info("🏁 EXIT: Graceful shutdown initiated")
     logger.info("api_gateway_shutting_down")
 
 
@@ -337,6 +359,13 @@ async def fitness_tracker_webhook(
     Webhook for fitness tracker motion events
     Validates HMAC and queues for processing
     """
+    if settings.verbose:
+        logger.debug(
+            "🏃 ENTRY: fitness_tracker_webhook",
+            wallet=event.wallet,
+            trace_id=request.state.trace_id
+        )
+    
     logger.info(
         "fitness_tracker_event_received",
         wallet=event.wallet,
@@ -355,6 +384,13 @@ async def fitness_tracker_webhook(
         data_hash=data_hash[:16],
         trace_id=request.state.trace_id
     )
+    
+    if settings.verbose:
+        logger.debug(
+            "✅ EXIT: fitness_tracker_webhook - event queued",
+            data_hash=data_hash[:16],
+            trace_id=request.state.trace_id
+        )
     
     return AttestationResponse(
         status="accepted",
@@ -375,6 +411,13 @@ async def mocap_webhook(
     Webhook for motion capture systems
     Processes mocap validation data
     """
+    if settings.verbose:
+        logger.debug(
+            "🎥 ENTRY: mocap_webhook",
+            wallet=event.wallet,
+            trace_id=request.state.trace_id
+        )
+    
     logger.info(
         "mocap_event_received",
         wallet=event.wallet,
@@ -392,6 +435,13 @@ async def mocap_webhook(
         data_hash=data_hash[:16],
         trace_id=request.state.trace_id
     )
+    
+    if settings.verbose:
+        logger.debug(
+            "✅ EXIT: mocap_webhook - event queued",
+            data_hash=data_hash[:16],
+            trace_id=request.state.trace_id
+        )
     
     return AttestationResponse(
         status="accepted",
@@ -412,6 +462,13 @@ async def generate_attestation(
     Generate motion attestation
     Called by agent service after RkCNN processing
     """
+    if settings.verbose:
+        logger.debug(
+            "📜 ENTRY: generate_attestation",
+            wallet=req.wallet,
+            trace_id=request.state.trace_id
+        )
+    
     logger.info(
         "attestation_generation_requested",
         wallet=req.wallet,
@@ -434,6 +491,14 @@ async def generate_attestation(
         expiry=expiry,
         trace_id=request.state.trace_id
     )
+    
+    if settings.verbose:
+        logger.debug(
+            "✅ EXIT: generate_attestation - attestation created",
+            nonce=nonce,
+            expiry=expiry,
+            trace_id=request.state.trace_id
+        )
     
     return {
         "status": "generated",
