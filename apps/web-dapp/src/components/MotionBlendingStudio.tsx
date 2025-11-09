@@ -28,8 +28,8 @@ import QualityMetricsDisplay from './QualityMetricsDisplay';
  * Configuration for blend operation
  */
 interface BlendConfig {
-  source1: string;
-  source2: string;
+  source1: File | null;
+  source2: File | null;
   blendWeight: number;
   transitionFrames: number;
 }
@@ -71,8 +71,8 @@ export default function MotionBlendingStudio() {
 
   // State management
   const [config, setConfig] = useState<BlendConfig>({
-    source1: '',
-    source2: '',
+    source1: null,
+    source2: null,
     blendWeight: 0.5,
     transitionFrames: 10,
   });
@@ -104,6 +104,29 @@ export default function MotionBlendingStudio() {
   );
 
   /**
+   * Handle file selection for source motions
+   */
+  const handleFileSelect = useCallback(
+    (field: 'source1' | 'source2', files: FileList | null) => {
+      if (!files || files.length === 0) return;
+      const file = files[0];
+
+      if (!file.name.toLowerCase().endsWith('.bvh')) {
+        setErrorMessage('Please select a BVH file');
+        return;
+      }
+
+      log(`File selected: ${field}`, { filename: file.name, size: file.size });
+      setErrorMessage('');
+      setConfig((prev) => ({
+        ...prev,
+        [field]: file,
+      }));
+    },
+    []
+  );
+
+  /**
    * Initiate blend operation
    *
    * Flow:
@@ -113,17 +136,22 @@ export default function MotionBlendingStudio() {
    * 4. Display quality metrics
    */
   const handleBlend = useCallback(async () => {
-    log('🚀 ENTRY: handleBlend', config as unknown as Record<string, unknown>);
+    log('🚀 ENTRY: handleBlend', {
+      source1: config.source1?.name,
+      source2: config.source2?.name,
+      blendWeight: config.blendWeight,
+      transitionFrames: config.transitionFrames,
+    });
 
     // Validation
     if (!config.source1 || !config.source2) {
-      setErrorMessage('Please select both source motions');
+      setErrorMessage('❌ Please select both source motions');
       log('❌ Validation failed: missing source motions');
       return;
     }
 
     if (config.transitionFrames < 5 || config.transitionFrames > 50) {
-      setErrorMessage('Transition frames must be between 5 and 50');
+      setErrorMessage('❌ Transition frames must be between 5 and 50');
       log('❌ Validation failed: invalid transition frames');
       return;
     }
@@ -134,16 +162,17 @@ export default function MotionBlendingStudio() {
     try {
       log('Calling blend API', { endpoint: '/api/motion-blend/blend' });
 
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('source_file_1', config.source1);
+      formData.append('source_file_2', config.source2);
+      formData.append('blend_weight', config.blendWeight.toString());
+      formData.append('transition_frames', config.transitionFrames.toString());
+
       // Call blend service
       const response = await fetch('/api/motion-blend/blend', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source_files: [config.source1, config.source2],
-          blend_weights: [config.blendWeight, 1 - config.blendWeight],
-          transition_frame: config.transitionFrames,
-          output_dir: './output',
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -248,15 +277,25 @@ export default function MotionBlendingStudio() {
               Source Motion 1
               <span className="required">*</span>
             </label>
-            <input
-              id="source1"
-              type="text"
-              value={config.source1}
-              onChange={(e) => handleConfigChange('source1', e.target.value)}
-              placeholder="path/to/motion1.bvh"
-              className="input-field"
-            />
-            <small>BVH file path for first motion sequence</small>
+            <div className="file-input-wrapper">
+              <input
+                id="source1"
+                type="file"
+                accept=".bvh"
+                onChange={(e) => handleFileSelect('source1', e.target.files)}
+                className="file-input"
+              />
+              <label htmlFor="source1" className="file-label">
+                {config.source1 ? (
+                  <>
+                    ✅ {config.source1.name}
+                  </>
+                ) : (
+                  <>📁 Choose BVH File</>
+                )}
+              </label>
+            </div>
+            <small>Select first motion sequence (BVH format)</small>
           </div>
 
           {/* Source Motion 2 */}
@@ -265,15 +304,25 @@ export default function MotionBlendingStudio() {
               Source Motion 2
               <span className="required">*</span>
             </label>
-            <input
-              id="source2"
-              type="text"
-              value={config.source2}
-              onChange={(e) => handleConfigChange('source2', e.target.value)}
-              placeholder="path/to/motion2.bvh"
-              className="input-field"
-            />
-            <small>BVH file path for second motion sequence</small>
+            <div className="file-input-wrapper">
+              <input
+                id="source2"
+                type="file"
+                accept=".bvh"
+                onChange={(e) => handleFileSelect('source2', e.target.files)}
+                className="file-input"
+              />
+              <label htmlFor="source2" className="file-label">
+                {config.source2 ? (
+                  <>
+                    ✅ {config.source2.name}
+                  </>
+                ) : (
+                  <>📁 Choose BVH File</>
+                )}
+              </label>
+            </div>
+            <small>Select second motion sequence (BVH format)</small>
           </div>
 
           {/* Blend Weight Slider */}
@@ -694,6 +743,44 @@ export default function MotionBlendingStudio() {
           font-size: 1.5rem;
           padding: 0;
           line-height: 1;
+        }
+
+        /* File Input Styles */
+        .file-input-wrapper {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+        }
+
+        .file-input {
+          display: none;
+        }
+
+        .file-label {
+          display: block;
+          padding: 1rem;
+          background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+          color: white;
+          border-radius: 4px;
+          cursor: pointer;
+          text-align: center;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+        }
+
+        .file-label:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        .file-label:active {
+          transform: translateY(0);
+        }
+
+        .file-input:focus + .file-label {
+          outline: 2px solid #3498db;
+          outline-offset: 2px;
         }
 
         @media (max-width: 768px) {

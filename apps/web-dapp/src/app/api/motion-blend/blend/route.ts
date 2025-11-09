@@ -34,10 +34,11 @@ import { NextRequest, NextResponse } from 'next/server';
  * POST handler for blend requests
  *
  * Flow:
- * 1. Validate request body
- * 2. Fetch from motion-blend-service
- * 3. Return results to client
- * 4. Log with structured logging
+ * 1. Parse FormData with file uploads
+ * 2. Validate request data
+ * 3. Fetch from motion-blend-service
+ * 4. Return results to client
+ * 5. Log with structured logging
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const log = (message: string, data?: Record<string, unknown>) => {
@@ -49,64 +50,77 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   log('ENTRY: POST /api/motion-blend/blend');
 
   try {
-    // Parse request
-    const body = await request.json();
+    // Parse FormData request
+    const formData = await request.formData();
+    const file1 = formData.get('source_file_1') as File;
+    const file2 = formData.get('source_file_2') as File;
+    const blendWeight = parseFloat(formData.get('blend_weight') as string);
+    const transitionFrames = parseInt(
+      formData.get('transition_frames') as string
+    );
+
     log('Request received', {
-      sourceFiles: body.source_files?.length,
-      transitionFrame: body.transition_frame,
+      file1: file1?.name,
+      file2: file2?.name,
+      blendWeight,
+      transitionFrames,
     });
 
-    // Validate inputs
-    if (!body.source_files || body.source_files.length !== 2) {
-      log('❌ Validation failed: expected 2 source files');
+    // Validate file uploads
+    if (!file1 || !file2) {
+      log('❌ Validation failed: expected 2 files');
       return NextResponse.json(
-        { error: 'Expected exactly 2 source motion files' },
+        { error: 'Expected 2 BVH files' },
+        { status: 400 }
+      );
+    }
+
+    if (!file1.name.endsWith('.bvh') || !file2.name.endsWith('.bvh')) {
+      log('❌ Validation failed: files must be BVH format');
+      return NextResponse.json(
+        { error: 'Files must be in BVH format' },
+        { status: 400 }
+      );
+    }
+
+    // Validate blend parameters
+    if (isNaN(blendWeight) || blendWeight < 0 || blendWeight > 1) {
+      log('❌ Validation failed: invalid blend weight');
+      return NextResponse.json(
+        { error: 'Blend weight must be between 0 and 1' },
         { status: 400 }
       );
     }
 
     if (
-      !body.blend_weights ||
-      body.blend_weights.length !== 2 ||
-      Math.abs(body.blend_weights[0] + body.blend_weights[1] - 1.0) > 0.01
+      isNaN(transitionFrames) ||
+      transitionFrames < 5 ||
+      transitionFrames > 50
     ) {
-      log('❌ Validation failed: invalid blend weights');
+      log('❌ Validation failed: invalid transition frames');
       return NextResponse.json(
-        { error: 'Blend weights must sum to 1.0' },
+        { error: 'Transition frames must be between 5 and 50' },
         { status: 400 }
       );
     }
 
-    if (
-      !Number.isInteger(body.transition_frame) ||
-      body.transition_frame < 5 ||
-      body.transition_frame > 50
-    ) {
-      log('❌ Validation failed: invalid transition frame');
-      return NextResponse.json(
-        { error: 'Transition frame must be between 5 and 50' },
-        { status: 400 }
-      );
-    }
+    // Create FormData for backend service
+    const blendServiceFormData = new FormData();
+    blendServiceFormData.append('source_file_1', file1);
+    blendServiceFormData.append('source_file_2', file2);
+    blendServiceFormData.append('blend_weight', blendWeight.toString());
+    blendServiceFormData.append('transition_frames', transitionFrames.toString());
 
     // Call motion-blend-service
-    const blendServiceUrl = process.env.MOTION_BLEND_SERVICE_URL || 'http://localhost:8001';
+    const blendServiceUrl =
+      process.env.MOTION_BLEND_SERVICE_URL || 'http://localhost:8000';
     const blendEndpoint = `${blendServiceUrl}/blend`;
 
     log('Calling motion-blend-service', { endpoint: blendEndpoint });
 
     const blendResponse = await fetch(blendEndpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'kinetic-ledger-web-dapp/1.0',
-      },
-      body: JSON.stringify({
-        source_files: body.source_files,
-        blend_weights: body.blend_weights,
-        transition_frame: body.transition_frame,
-        output_dir: body.output_dir || './output',
-      }),
+      body: blendServiceFormData,
     });
 
     if (!blendResponse.ok) {
