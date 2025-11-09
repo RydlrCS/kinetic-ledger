@@ -20,5 +20,8 @@
     "prettier-plugin-solidity": "^1.4.1",
     "solhint": "^4.5.4",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
   }
 }

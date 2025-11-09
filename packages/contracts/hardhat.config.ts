@@ -1,6 +1,7 @@
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 import '@nomicfoundation/hardhat-verify';
+import 'dotenv/config';
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -18,13 +19,13 @@ const config: HardhatUserConfig = {
       chainId: 1337,
     },
     arcTestnet: {
-      url: process.env.ARC_RPC_URL || 'https://rpc.arc-testnet.circle.com',
+      url: process.env.ARC_RPC_URL || 'https://sepolia-rollup.arbitrum.io/rpc',
       accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
       chainId: 421614,
     },
   },
   paths: {
-    sources: './contracts',
+    sources: './src',
     tests: './test',
     cache: './cache',
     artifacts: './artifacts',

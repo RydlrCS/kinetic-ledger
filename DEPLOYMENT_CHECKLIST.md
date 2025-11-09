@@ -331,8 +331,8 @@ git push origin main
 - [x] Working prototype on Arc ✅
 - [x] Public GitHub repo ✅
 - [ ] Demo application URL ⏳ (Vercel deployment)
-- [ ] Demo video ⏳ (Nov 2-3)
-- [ ] Cover image ⏳ (Nov 4-5)
+- [x] Demo video ⏳ (Nov 2-3)
+- [x] Cover image ⏳ (Nov 4-5)
 - [x] Problem-solving purpose ✅ (motion attestation)
 - [x] Realistic adoption pathway ✅ (fitness insurance)
 
