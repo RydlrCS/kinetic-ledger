@@ -12,13 +12,13 @@ export const arcTestnet = defineChain({
   },
   rpcUrls: {
     default: {
-      http: [process.env.NEXT_PUBLIC_ARC_RPC_URL || 'https://rpc.arc-testnet.circle.com'],
+      http: [process.env.NEXT_PUBLIC_ARC_RPC_URL || 'https://rpc.arc-testnet.gelato.digital'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Arc Explorer',
-      url: 'https://explorer.arc-testnet.circle.com',
+      url: 'https://explorer.arc-testnet.gelato.digital',
     },
   },
   testnet: true,
@@ -45,6 +45,24 @@ if (!projectId && process.env.NODE_ENV !== 'production') {
     '   2. Add it to apps/web-dapp/.env.local\n' +
     '   3. Restart the dev server\n'
   );
+}
+
+// Suppress IndexedDB errors gracefully
+if (typeof window !== 'undefined') {
+  try {
+    const test = '__indexeddb_test__';
+    const dbRequest = indexedDB.open(test);
+    dbRequest.onsuccess = () => {
+      const db = dbRequest.result;
+      db.close();
+      indexedDB.deleteDatabase(test);
+    };
+    dbRequest.onerror = () => {
+      console.warn('⚠️  IndexedDB not available - using memory-only storage');
+    };
+  } catch (error) {
+    console.warn('⚠️  IndexedDB error:', error);
+  }
 }
 
 export const config = getDefaultConfig({
