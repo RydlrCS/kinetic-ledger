@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web-dapp:
+    build:
+      context: ../..
+      dockerfile: apps/web-dapp/Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../apps/web-dapp/src:/app/apps/web-dapp/src
+      - ../../apps/web-dapp/public:/app/apps/web-dapp/public
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_ARC_RPC_URL=https://rpc.arc-testnet.gelato.digital
+      - NEXT_PUBLIC_CHAIN_ID=42069
+    command: pnpm -C apps/web-dapp dev
+    stdin_open: true
+    tty: true

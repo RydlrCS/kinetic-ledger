@@ -1,0 +1,26 @@
+# Use Node.js 20 LTS
+FROM node:20-alpine AS base
+
+# Install pnpm
+RUN npm install -g pnpm@9.12.0
+
+# Set working directory
+WORKDIR /app
+
+# Copy workspace files
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+
+# Copy web-dapp package files
+COPY apps/web-dapp/package.json ./apps/web-dapp/
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source code
+COPY apps/web-dapp ./apps/web-dapp
+
+# Expose port
+EXPOSE 3000
+
+# Start dev server
+CMD ["pnpm", "-C", "apps/web-dapp", "dev"]

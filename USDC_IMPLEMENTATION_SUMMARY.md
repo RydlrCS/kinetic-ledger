@@ -220,9 +220,9 @@ const results = await batchSendUSDC(usdc, recipients);
 1. ✅ Fix TypeScript errors (DONE)
 2. ✅ Install dependencies (DONE)
 3. ✅ Build SDK package (DONE)
-4. ⏳ Test USDC transfer on Arc testnet
+4. ✅ Test USDC transfer on Arc testnet (DONE - TX: 0x018980876106a70f1f6c7b2266fc24f74e0fb8b845fb344f9b23a3382805904f)
 5. ⏳ Integrate `useUSDCTransfer` into Motion Studio UI
-6. ⏳ Commit and push to GitHub
+6. ✅ Commit and push to GitHub (DONE - commit a986080)
 7. ⏳ Update Vercel deployment
 
 ### Post-Hackathon
@@ -291,10 +291,14 @@ const results = await batchSendUSDC(usdc, recipients);
 - [x] Dependencies installed
 - [x] TypeScript compilation successful
 - [x] Type errors fixed
-- [ ] USDC transfer tested on Arc testnet
+- [x] USDC transfer tested on Arc testnet ✅ **VERIFIED**
+  - TX Hash: [0x018980876106a70f...](https://testnet.arcscan.app/tx/0x018980876106a70f1f6c7b2266fc24f74e0fb8b845fb344f9b23a3382805904f)
+  - From: 0x70E3Fb28e1794bb91D5bCEB7d66b731d0C61Af8e
+  - To: 0x6e8074B3dB5D75C3400f6D99606be93D58B5e7b0
+  - Status: SUCCESS ✅
 - [ ] Motion minting example tested
 - [ ] useUSDCTransfer integrated into UI
-- [ ] Code committed to GitHub
+- [x] Code committed to GitHub ✅ (commit a986080)
 - [ ] Vercel deployment updated
 - [ ] Demo video recorded
 - [ ] Devpost submission completed

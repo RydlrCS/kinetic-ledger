@@ -7,6 +7,7 @@ import BlendConfigurationModule from '../../components/BlendConfigurationModule'
 import ValidationAttestationView from '../../components/ValidationAttestationView';
 import TokenMintingInterface from '../../components/TokenMintingInterface';
 import WalletPaymentPanel from '../../components/WalletPaymentPanel';
+import { useUSDCTransfer } from '../../hooks/useUSDCTransfer';
 
 const VERBOSE = process.env.NEXT_PUBLIC_VERBOSE === 'true' || process.env.NODE_ENV === 'development';
 
@@ -62,16 +63,29 @@ const SAMPLE_TRANSITIONS = [
 ];
 
 export default function MotionStudioPage() {
+  // USDC Transfer Hook - Real blockchain integration
+  const { 
+    balance: usdcBalance, 
+    balanceRaw,
+    sendUSDC, 
+    approveUSDC,
+    isTransferring, 
+    isConfirming,
+    isConfirmed,
+    refetchBalance 
+  } = useUSDCTransfer();
+
   useEffect(() => {
     log('🚀 ENTRY: MotionStudioPage component mounted');
+    log('💰 USDC Balance loaded:', usdcBalance, 'USDC');
     return () => {
       log('🏁 EXIT: MotionStudioPage component unmounting');
     };
-  }, []);
+  }, [usdcBalance]);
 
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
-  const [balance, setBalance] = useState('150.00');
+  const [balance, setBalance] = useState(usdcBalance || '150.00'); // Use real USDC balance
   const [currentStep, setCurrentStep] = useState<'configure' | 'validate' | 'mint'>('configure');
   
   const [validationResult, setValidationResult] = useState<any>(null);
@@ -135,11 +149,26 @@ export default function MotionStudioPage() {
 
   const handleMint = async (options: any) => {
     log('🪙 ENTRY: handleMint', { options });
-    // Simulate minting
+    
+    // Check USDC balance before minting
+    const mintingFee = 7.0;
+    if (parseFloat(usdcBalance || '0') < mintingFee) {
+      log('❌ EXIT: handleMint - insufficient USDC balance');
+      alert(`Insufficient USDC balance. Need at least ${mintingFee} USDC for minting.`);
+      return;
+    }
+
+    log('💰 USDC balance check passed:', usdcBalance, 'USDC (need', mintingFee, 'USDC)');
+    
+    // Simulate minting (in production, this would call the actual contract)
     await new Promise(resolve => setTimeout(resolve, 3000));
-    const newBalance = (parseFloat(balance) - 7).toFixed(2);
+    
+    // Refresh USDC balance after minting
+    await refetchBalance();
+    const newBalance = usdcBalance || balance;
     setBalance(newBalance);
-    log('✅ EXIT: handleMint - token minted, new balance:', newBalance, 'USDC');
+    
+    log('✅ EXIT: handleMint - token minted, refreshed balance:', newBalance, 'USDC');
   };
 
   const metadata = {

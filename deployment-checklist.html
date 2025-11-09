@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vercel Deployment Checklist - Kinetic Ledger</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #5ac8fa 0%, #277ffe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 60%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .step {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #277ffe;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+        
+        .step.completed {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .step.active {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #277ffe;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .step.completed .step-number {
+            background: #10b981;
+        }
+        
+        .step.completed .step-number::before {
+            content: "✓";
+        }
+        
+        .step.active .step-number {
+            background: #f59e0b;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .step-content {
+            margin-left: 55px;
+        }
+        
+        .step-description {
+            color: #6b7280;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .config-item {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .config-label {
+            color: #6366f1;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .config-value {
+            color: #1f2937;
+            word-break: break-all;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .warning-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning-title::before {
+            content: "⚠️";
+            margin-right: 8px;
+        }
+        
+        .success {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .success-title {
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .success-title::before {
+            content: "✅";
+            margin-right: 8px;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #277ffe;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            background: #1e6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 127, 254, 0.3);
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .env-vars {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+        
+        .copy-button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: all 0.2s;
+        }
+        
+        .copy-button:hover {
+            background: #4f46e5;
+        }
+        
+        .copy-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Vercel Deployment Checklist</h1>
+            <p>Kinetic Ledger - Motion Attestation on Arc</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1: Completed -->
+            <div class="step completed">
+                <div class="step-header">
+                    <div class="step-number"></div>
+                    <div class="step-title">Get WalletConnect Project ID</div>
+                </div>
+                <div class="step-content">
+                    <div class="success">
+                        <div class="success-title">Completed!</div>
+                        <p>Your Project ID: <code>9dcab9917a341fc0934735119384bab8</code></p>
+                        <p>Added to .env.local successfully ✓</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Completed -->
+            <div class="step completed">
+                <div class="step-header">
+                    <div class="step-number"></div>
+                    <div class="step-title">Configure Local Environment</div>
+                </div>
+                <div class="step-content">
+                    <div class="success">
+                        <div class="success-title">Completed!</div>
+                        <p>✓ WalletConnect Project ID added to .env.local</p>
+                        <p>✓ Dev server running on http://localhost:3000</p>
+                        <p>✓ No WalletConnect errors detected</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Active -->
+            <div class="step active">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Import Repository to Vercel</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        You should be on the Vercel "New Project" page now.
+                    </div>
+                    
+                    <div class="warning">
+                        <div class="warning-title">Action Required</div>
+                        <p><strong>1.</strong> If not signed in: Click "Sign in with GitHub"</p>
+                        <p><strong>2.</strong> Find your repository: Search for <code>RydlrCS/kinetic-ledger</code></p>
+                        <p><strong>3.</strong> Click the <strong>"Import"</strong> button next to kinetic-ledger</p>
+                    </div>
+                    
+                    <a href="https://vercel.com/new" target="_blank" class="button">
+                        Open Vercel Dashboard →
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Step 4: Pending -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Configure Project Settings</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        After clicking "Import", you'll see the configuration screen. Fill in these values:
+                    </div>
+                    
+                    <h4 style="margin: 20px 0 10px 0; color: #1f2937;">Build Configuration:</h4>
+                    <div class="config-item">
+                        <span class="config-label">Framework Preset:</span>
+                        <span class="config-value">Next.js (should auto-detect ✓)</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Root Directory:</span>
+                        <span class="config-value">apps/web-dapp</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Build Command:</span>
+                        <span class="config-value">cd ../.. && pnpm install && pnpm -C apps/web-dapp build</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Install Command:</span>
+                        <span class="config-value">pnpm install</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 5: Pending -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Add Environment Variables</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        Click "Environment Variables" and add these one by one (or bulk add):
+                    </div>
+                    
+                    <div class="env-vars">
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_CHAIN_ID</span>
+                            <span class="config-value">421614</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_ARC_RPC_URL</span>
+                            <span class="config-value">https://rpc.arc-testnet.circle.com</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID</span>
+                            <span class="config-value">9dcab9917a341fc0934735119384bab8</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_ATTESTED_MOTION_ADDRESS</span>
+                            <span class="config-value">0x0000000000000000000000000000000000000000</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_NOVELTY_DETECTOR_ADDRESS</span>
+                            <span class="config-value">0x0000000000000000000000000000000000000000</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_ORCHESTRATOR_ADDRESS</span>
+                            <span class="config-value">0x0000000000000000000000000000000000000000</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_USDC_ADDRESS</span>
+                            <span class="config-value">0x0000000000000000000000000000000000000000</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_API_GATEWAY_URL</span>
+                            <span class="config-value">https://api.kineticledger.com</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_APP_NAME</span>
+                            <span class="config-value">Kinetic Ledger</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_APP_DESCRIPTION</span>
+                            <span class="config-value">AI-powered motion attestation on Arc blockchain</span>
+                        </div>
+                        <div class="config-item">
+                            <span class="config-label">NEXT_PUBLIC_VERBOSE</span>
+                            <span class="config-value">false</span>
+                        </div>
+                    </div>
+                    
+                    <div class="warning">
+                        <div class="warning-title">Important</div>
+                        <p>Make sure to add ALL environment variables before deploying!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 6: Pending -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Deploy & Test</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p><strong>1.</strong> Click the <strong>"Deploy"</strong> button</p>
+                        <p><strong>2.</strong> Wait 5-7 minutes for build to complete</p>
+                        <p><strong>3.</strong> Vercel will show your deployment URL</p>
+                        <p><strong>4.</strong> Test at: <code>https://[your-project].vercel.app/studio</code></p>
+                    </div>
+                    
+                    <h4 style="margin: 20px 0 10px 0; color: #1f2937;">What to verify:</h4>
+                    <div class="config-item">
+                        <span class="config-value">✓ Page loads without errors</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-value">✓ Motion Studio UI displays correctly</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-value">✓ "Connect Wallet" button shows WalletConnect modal</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-value">✓ All 6 components render (Logo, Preview, Blend, Validate, Mint, Wallet)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Next Steps After Deployment:</strong></p>
+            <p>📹 Record demo video (Nov 2-3) → 🎨 Design cover image (Nov 4-5) → 📤 Submit to Devpost (Nov 8)</p>
+            <p style="margin-top: 10px; font-size: 12px;">Deadline: November 9, 2025 at 2:30 AM EAT (8 days remaining)</p>
+        </div>
+    </div>
+    
+    <script>
+        // Update progress bar based on completed steps
+        const steps = document.querySelectorAll('.step');
+        const completedSteps = document.querySelectorAll('.step.completed');
+        const progress = (completedSteps.length / steps.length) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+        
+        // Copy functionality for config values
+        document.querySelectorAll('.config-value').forEach(el => {
+            el.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent);
+                const original = this.textContent;
+                this.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    this.textContent = original;
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
