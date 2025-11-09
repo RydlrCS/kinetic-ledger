@@ -72,7 +72,7 @@ def extract_features(
         if offsets.shape[0] != num_joints:
             raise ValueError(f"Offset joints {offsets.shape[0]} != rotation joints {num_joints}")
         
-        logger.trace(f"   Validated inputs: {num_frames} frames, {num_joints} joints")
+        logger.debug(f"   Validated inputs: {num_frames} frames, {num_joints} joints")
         
         # Extract temporal features (mean, std, min, max over time)
         features = []
@@ -86,7 +86,7 @@ def extract_features(
                 np.min(positions[:, dim]),
                 np.max(positions[:, dim]),
             ])
-        logger.trace(f"   Extracted root trajectory features: {len(features)} dims")
+        logger.debug(f"   Extracted root trajectory features: {len(features)} dims")
         
         # 2. Joint rotation statistics (per joint: 12 dims x num_joints)
         for joint in range(num_joints):
@@ -98,7 +98,7 @@ def extract_features(
                     np.min(rot_values),
                     np.max(rot_values),
                 ])
-        logger.trace(f"   Extracted joint rotation features: {len(features)} dims")
+        logger.debug(f"   Extracted joint rotation features: {len(features)} dims")
         
         # 3. Velocity features (per joint: 12 dims x num_joints)
         for joint in range(num_joints):
@@ -110,11 +110,11 @@ def extract_features(
                     np.min(vel_values),
                     np.max(vel_values),
                 ])
-        logger.trace(f"   Extracted velocity features: {len(features)} dims")
+        logger.debug(f"   Extracted velocity features: {len(features)} dims")
         
         # 4. Skeleton structure features (num_joints x 3 for offsets)
         features.extend(offsets.flatten().tolist())
-        logger.trace(f"   Extracted skeleton features: {len(features)} dims")
+        logger.debug(f"   Extracted skeleton features: {len(features)} dims")
         
         # Convert to numpy array
         feature_array = np.array(features, dtype=np.float32)
@@ -134,7 +134,7 @@ def extract_features(
         norm = np.linalg.norm(feature_array)
         if norm > 0:
             feature_array = feature_array / norm
-            logger.trace(f"   Normalized features (L2 norm = 1.0)")
+            logger.debug(f"   Normalized features (L2 norm = 1.0)")
         
         logger.info(
             f"✅ EXIT: extract_features - "
@@ -262,7 +262,7 @@ def validate_sequence(
             )
             raise ValueError(f"Motion has {num_frames} frames, maximum is {max_frames}")
         
-        logger.trace(f"   Frame count OK: {num_frames}")
+        logger.debug(f"   Frame count OK: {num_frames}")
         
         # Validate joint count
         num_joints = len(names)
@@ -273,7 +273,7 @@ def validate_sequence(
             )
             raise ValueError(f"Motion has only {num_joints} joints, minimum is {required_joints}")
         
-        logger.trace(f"   Joint count OK: {num_joints}")
+        logger.debug(f"   Joint count OK: {num_joints}")
         
         # Validate rotation shape matches
         expected_rot_shape = (num_frames, num_joints, 3)
@@ -286,7 +286,7 @@ def validate_sequence(
                 f"Rotation shape {rotations.shape} doesn't match expected {expected_rot_shape}"
             )
         
-        logger.trace(f"   Rotation shape OK: {rotations.shape}")
+        logger.debug(f"   Rotation shape OK: {rotations.shape}")
         
         # Validate parent array length
         if len(parents) != num_joints:
@@ -298,7 +298,7 @@ def validate_sequence(
                 f"Parent array length {len(parents)} doesn't match joint count {num_joints}"
             )
         
-        logger.trace(f"   Parent array OK: {len(parents)} entries")
+        logger.debug(f"   Parent array OK: {len(parents)} entries")
         
         # Check for NaN or Inf values
         if np.any(np.isnan(positions)) or np.any(np.isinf(positions)):
@@ -309,7 +309,7 @@ def validate_sequence(
             logger.error(f"❌ EXIT: validate_sequence - Rotations contain NaN or Inf")
             raise ValueError("Rotations contain NaN or Inf values")
         
-        logger.trace(f"   No NaN/Inf values detected")
+        logger.debug(f"   No NaN/Inf values detected")
         
         logger.info(
             f"✅ EXIT: validate_sequence - "

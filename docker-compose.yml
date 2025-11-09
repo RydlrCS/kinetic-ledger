@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Motion Blend Service - Python FastAPI backend
+  motion-blend-service:
+    build:
+      context: ./apps/motion-blend-service
+      dockerfile: Dockerfile
+    container_name: kinetic-motion-blend-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/motion-blend-service/src:/app/src
+      - ./apps/motion-blend-service/config:/app/config
+      - ./apps/motion-blend-service/models:/app/models
+      - ./data/samples:/app/data/samples
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+      - VERBOSE=false
+      - ARC_RPC_URL=https://rpc.arc-testnet.gelato.digital
+      - USDC_ADDRESS=0xEB466342C4d449BC9f53A865D5Cb90586f405215a
+      - VALIDATOR_PRIVATE_KEY=${VALIDATOR_PRIVATE_KEY:-0x0000000000000000000000000000000000000000000000000000000000000001}
+    networks:
+      - kinetic-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload --log-level info
+    restart: unless-stopped
+
+  # Web Dapp - Next.js React frontend
+  web-dapp:
+    build:
+      context: ./
+      dockerfile: ./apps/web-dapp/Dockerfile.dev
+    container_name: kinetic-web-dapp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web-dapp/src:/app/apps/web-dapp/src
+      - ./apps/web-dapp/public:/app/apps/web-dapp/public
+      - ./apps/web-dapp/app:/app/apps/web-dapp/app
+      - ./packages:/app/packages
+      - node_modules:/app/node_modules
+      - web_node_modules:/app/apps/web-dapp/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_ARC_RPC_URL=https://rpc.arc-testnet.gelato.digital
+      - NEXT_PUBLIC_CHAIN_ID=42069
+      - NEXT_PUBLIC_USDC_ADDRESS=0xEB466342C4d449BC9f53A865D5Cb90586f405215a
+      - MOTION_BLEND_SERVICE_URL=http://motion-blend-service:8000
+      - REGISTRY_ADDRESS=${REGISTRY_ADDRESS:-0x0000000000000000000000000000000000000000}
+      - VALIDATOR_PRIVATE_KEY=${VALIDATOR_PRIVATE_KEY:-0x0000000000000000000000000000000000000000000000000000000000000001}
+    networks:
+      - kinetic-network
+    depends_on:
+      motion-blend-service:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+    command: pnpm -C apps/web-dapp dev
+    restart: unless-stopped
+
+networks:
+  kinetic-network:
+    driver: bridge
+
+volumes:
+  node_modules:
+  web_node_modules:

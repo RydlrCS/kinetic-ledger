@@ -93,7 +93,7 @@ def load_bvh(
                 offsets = np.append(offsets, np.array([[0, 0, 0]]), axis=0)
                 parents = np.append(parents, active)
                 active = len(parents) - 1
-                logger.trace(f"   Parsed ROOT: {names[-1]}, index={active}")
+                logger.debug(f"   Parsed ROOT: {names[-1]}, index={active}")
                 i += 1
                 continue
             
@@ -104,7 +104,7 @@ def load_bvh(
                 offsets = np.append(offsets, np.array([[0, 0, 0]]), axis=0)
                 parents = np.append(parents, active)
                 active = len(parents) - 1
-                logger.trace(f"   Parsed JOINT: {names[-1]}, parent={parents[-1]}")
+                logger.debug(f"   Parsed JOINT: {names[-1]}, parent={parents[-1]}")
                 i += 1
                 continue
             
@@ -255,12 +255,12 @@ def save_bvh(
             for frame in range(num_frames):
                 # Root position
                 pos = positions[frame]
-                f.write(f"{pos[0]:.{precision}f} {pos[1]:.{precision}f} {pos[2]:.{precision}f} ")
+                f.write(f"{float(pos[0]):.{precision}f} {float(pos[1]):.{precision}f} {float(pos[2]):.{precision}f} ")
                 
                 # Joint rotations
                 for joint in range(num_joints):
                     rot = rotations[frame, joint]
-                    f.write(f"{rot[0]:.{precision}f} {rot[1]:.{precision}f} {rot[2]:.{precision}f} ")
+                    f.write(f"{float(rot[0]):.{precision}f} {float(rot[1]):.{precision}f} {float(rot[2]):.{precision}f} ")
                 
                 f.write("\n")
         

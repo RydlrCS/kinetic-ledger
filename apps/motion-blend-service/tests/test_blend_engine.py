@@ -49,11 +49,13 @@ def sample_bvh_data() -> Dict:
     # Create simple walking motion (sinusoidal root trajectory)
     t = np.linspace(0, 2 * np.pi, num_frames)
     
-    positions = np.zeros((num_frames, num_joints, 3), dtype=np.float32)
-    positions[:, 0, 0] = np.sin(t) * 0.5  # Root X (lateral sway)
-    positions[:, 0, 1] = 1.0              # Root Y (height)
-    positions[:, 0, 2] = t * 0.1          # Root Z (forward motion)
+    # Positions: only root position (num_frames, 3)
+    positions = np.zeros((num_frames, 3), dtype=np.float32)
+    positions[:, 0] = np.sin(t) * 0.5  # Root X (lateral sway)
+    positions[:, 1] = 1.0              # Root Y (height)
+    positions[:, 2] = t * 0.1          # Root Z (forward motion)
     
+    # Rotations: all joints (num_frames, num_joints, 3)
     rotations = np.random.randn(num_frames, num_joints, 3).astype(np.float32) * 0.1
     
     offsets = np.random.randn(num_joints, 3).astype(np.float32) * 0.1
