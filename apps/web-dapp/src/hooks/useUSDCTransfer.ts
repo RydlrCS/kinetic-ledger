@@ -104,8 +104,8 @@ export function useUSDCTransfer() {
         args: [to, amountBigInt],
       });
 
-      console.log(`USDC transfer submitted: ${hash}`);
-      console.log(`View on Arc Explorer: https://explorer.arc-testnet.circle.com/tx/${hash}`);
+      console.warn(`USDC transfer submitted: ${hash}`);
+      console.warn(`View on Arc Explorer: https://explorer.arc-testnet.circle.com/tx/${hash}`);
 
       // Refetch balance after transfer
       await refetchBalance();
@@ -151,7 +151,7 @@ export function useUSDCTransfer() {
         args: [spender, amountBigInt],
       });
 
-      console.log(`USDC approval submitted: ${hash}`);
+      console.warn(`USDC approval submitted: ${hash}`);
 
       setIsTransferring(false);
 
@@ -162,6 +162,7 @@ export function useUSDCTransfer() {
     } catch (error) {
       setIsTransferring(false);
       const errorMessage = error instanceof Error ? error.message : 'Approval failed';
+      console.error('USDC approval error:', errorMessage);
 
       return {
         success: false,

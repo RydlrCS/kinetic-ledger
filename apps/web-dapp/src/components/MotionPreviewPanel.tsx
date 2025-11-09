@@ -153,7 +153,7 @@ export default function MotionPreviewPanel({ segments, transitions, totalDuratio
           onClick={handleTimelineClick}
         >
           {/* Segments */}
-          {segments.map((segment, idx) => (
+          {segments.map((segment) => (
             <div
               key={segment.id}
               className="absolute top-0 h-full flex items-center px-2 transition-all duration-300 hover:z-10"

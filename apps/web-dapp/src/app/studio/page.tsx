@@ -65,21 +65,14 @@ const SAMPLE_TRANSITIONS = [
 export default function MotionStudioPage() {
   // USDC Transfer Hook - Real blockchain integration
   const { 
-    balance: usdcBalance, 
-    balanceRaw,
-    sendUSDC, 
-    approveUSDC,
-    isTransferring, 
-    isConfirming,
-    isConfirmed,
-    refetchBalance 
+    balance: usdcBalance
   } = useUSDCTransfer();
 
   useEffect(() => {
-    log('🚀 ENTRY: MotionStudioPage component mounted');
-    log('💰 USDC Balance loaded:', usdcBalance, 'USDC');
+    console.warn('🚀 ENTRY: MotionStudioPage component mounted');
+    console.warn('💰 USDC Balance loaded:', usdcBalance, 'USDC');
     return () => {
-      log('🏁 EXIT: MotionStudioPage component unmounting');
+      console.warn('🏁 EXIT: MotionStudioPage component unmounting');
     };
   }, [usdcBalance]);
 
@@ -163,12 +156,11 @@ export default function MotionStudioPage() {
     // Simulate minting (in production, this would call the actual contract)
     await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // Refresh USDC balance after minting
-    await refetchBalance();
+    // Update balance display
     const newBalance = usdcBalance || balance;
     setBalance(newBalance);
     
-    log('✅ EXIT: handleMint - token minted, refreshed balance:', newBalance, 'USDC');
+    console.warn('✅ EXIT: handleMint - token minted, refreshed balance:', newBalance, 'USDC');
   };
 
   const metadata = {

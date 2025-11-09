@@ -530,8 +530,8 @@ All 11 core tasks are **production-ready** with comprehensive testing and docume
 ## 📞 Support & Contact
 
 - **GitHub Issues**: https://github.com/RydlrCS/kinetic-ledger/issues
-- **Hackathon Discord**: Arc x USDC Hackathon server
-- **Email**: [Your email for hackathon judges]
+- **Hackathon Discord**: Arc x Lablab ai Hackathon server
+- **Email**: [ted@rydlr.com]
 
 ---
 
